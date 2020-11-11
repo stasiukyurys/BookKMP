@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+АС Весовщик
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">345,87 <span class="text-muted">/ тонн</span></h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Сохранить</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Печать</button>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            Текущий месяц
+          </button>
+        </div>
+      </div>
+
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Дата</th>
+      <th scope="col">Время</th>
+      <th scope="col">ID карта</th>
+      <th scope="col">Авто</th>
+      <th scope="col">Вес авто/кг</th>
+      <th scope="col">Нетто/т</th>
+      <th scope="col">Брутто/т</th>
+
+    </tr>
+  </thead>
+  <tbody>
+  {% for el in sand %}
+  <tr>
+      <th scope="row">{{ el.id }}</th>
+      <td>{{ el.date }}</td>
+      <td>{{ el.time }}</td>
+      <td>{{ el.card }}</td>
+      <td>{{ el.car }}</td>
+      <td>{{ el.tare }}</td>
+      <th>{{ el.net }}</th>
+      <td>{{ el.gross }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

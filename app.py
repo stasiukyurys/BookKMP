@@ -1,7 +1,25 @@
 from flask import Flask, render_template, url_for
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///BookKMP.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+
+class Sand(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    car = db.Column(db.String(100), nullable=False)     # имя авто
+    card = db.Column(db.String(20), nullable=False)     # id карты
+    date = db.Column(db.String(100), nullable=False)    # дата взвешивания
+    time = db.Column(db.String(100), nullable=False)    # время взвешивания
+    net = db.Column(db.Float, nullable=False)           # нетто
+    gross = db.Column(db.Float, nullable=False)         # брутто
+    tare = db.Column(db.Float, nullable=False)          # тара - вес авто
+
+    def __repr__(self):
+        return '<Sand %r>' % self.id
 
 
 @app.route('/')
@@ -33,6 +51,12 @@ def news():
 @app.route('/production')
 def production():
     return render_template('production.html')
+
+
+@app.route('/pit/scales')
+def scales():
+    sand = Sand.query.order_by(Sand.date).all()
+    return render_template('scales.html', sand=sand)
 
 
 @app.route('/pit')
