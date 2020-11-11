@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -10,13 +11,13 @@ db = SQLAlchemy(app)
 
 class Sand(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    car = db.Column(db.String(100), nullable=False)     # имя авто
-    card = db.Column(db.String(20), nullable=False)     # id карты
-    date = db.Column(db.String(100), nullable=False)    # дата взвешивания
-    time = db.Column(db.String(100), nullable=False)    # время взвешивания
-    net = db.Column(db.Float, nullable=False)           # нетто
-    gross = db.Column(db.Float, nullable=False)         # брутто
-    tare = db.Column(db.Float, nullable=False)          # тара - вес авто
+    car = db.Column(db.String(100), nullable=False)         # имя авто
+    card = db.Column(db.String(20), nullable=False)         # id карты
+    date = db.Column(db.DateTime, default=datetime.utcnow)  # дата взвешивания
+    time = db.Column(db.DateTime, default=datetime.utcnow)  # время взвешивания
+    net = db.Column(db.Float, nullable=False)               # нетто
+    gross = db.Column(db.Float, nullable=False)             # брутто
+    tare = db.Column(db.Float, nullable=False)              # тара - вес авто
 
     def __repr__(self):
         return '<Sand %r>' % self.id
