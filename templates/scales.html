@@ -19,27 +19,23 @@
           </button>
         </div>
       </div>
-
     <table class="table">
-  <thead>
+    <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Дата</th>
-      <th scope="col">Время</th>
       <th scope="col">ID карта</th>
       <th scope="col">Авто</th>
       <th scope="col">Вес авто/кг</th>
       <th scope="col">Нетто/т</th>
       <th scope="col">Брутто/т</th>
-
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
   {% for el in sand %}
   <tr>
       <th scope="row">{{ el.id }}</th>
       <td>{{ el.date }}</td>
-      <td>{{ el.time }}</td>
       <td>{{ el.card }}</td>
       <td>{{ el.car }}</td>
       <td>{{ el.tare }}</td>

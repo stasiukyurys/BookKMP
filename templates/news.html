@@ -5,5 +5,15 @@
 {% endblock %}
 
 {% block body %}
-<h1>Новости</h1>
+<div class="container mt-5">
+    <h1>Добавление статьи</h1>
+    <form method="post">
+        <input type="text" name="car" id="car" class="form-control" placeholder="авто"><br>
+        <textarea name="card" id="card" class="form-control" placeholder="id карты"></textarea><br>
+        <textarea name="net" id="net" class="form-control" placeholder="нетто"></textarea><br>
+        <textarea name="gross" id="gross" class="form-control" placeholder="брутто"></textarea><br>
+        <textarea name="tare" id="tare" class="form-control" placeholder="тара"></textarea><br>
+        <input type="submit" class="btn btn-success" value="Отправить"><br>
+    </form>
+</div>
 {% endblock %}

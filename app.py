@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -44,9 +44,25 @@ def abk():
     return render_template('abk.html')
 
 
-@app.route('/news')
+@app.route('/news', methods=['POST', 'GET'])
 def news():
-    return render_template('news.html')
+    if request.method == "POST":
+        car = request.form['car']
+        card = request.form['card']
+        net = request.form['net']
+        gross = request.form['gross']
+        tare = request.form['tare']
+
+        sand = Sand(car=car, card=card, net=net, gross=gross, tare=tare)
+
+        try:
+            db.session.add(sand)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return "При добавлении статьи произошла ошибка"
+    else:
+        return render_template('news.html')
 
 
 @app.route('/production')
