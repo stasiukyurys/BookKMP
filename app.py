@@ -70,10 +70,16 @@ def production():
     return render_template('production.html')
 
 
-@app.route('/pit/scales')
+@app.route('/pit/scales', methods=['POST', 'GET'])
 def scales():
-    sand = Sand.query.order_by(Sand.date).all()
-    return render_template('scales.html', sand=sand)
+    if request.method == "POST":
+        return "POST"
+    else:
+        sum_net = 0.0
+        sand = Sand.query.order_by(Sand.date).all()
+        for el in sand:
+            sum_net = sum_net + el.net
+        return render_template('scales.html', sand=sand, sum_net=sum_net)
 
 
 @app.route('/pit')
@@ -87,4 +93,4 @@ def user(name, id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='10.0.0.14', port=80)
