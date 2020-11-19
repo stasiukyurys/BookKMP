@@ -76,9 +76,11 @@ def scales():
         return "POST"
     else:
         sum_net = 0.0
-        sand = Sand.query.order_by(Sand.date).all()
+        #sand = Sand.query.order_by(Sand.date).all()
+        #sand = Sand.query.filter(Sand.car == 'AW-1771b').order_by(Sand.date).all()
+        sand = Sand.query.filter(Sand.date >= '2020-11-10').filter(Sand.date <= '2020-11-15').order_by(Sand.date).all()
         for el in sand:
-            sum_net = sum_net + el.net
+            sum_net = round(sum_net + el.net, 2)
         return render_template('scales.html', sand=sand, sum_net=sum_net)
 
 
