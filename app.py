@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 app = Flask(__name__)
@@ -75,14 +75,21 @@ def scales():
     if request.method == "POST":
         date_ot = request.form['date_ot']
         date_do = request.form['date_do']
+        if date_do != '':
+            date_do_delta = datetime.strptime(date_do, '%Y-%m-%d')
+            date_do_delta = date_do_delta + timedelta(days=1)
+        else:
+            date_do_delta = datetime.utcnow()
         sum_net = 0.0
-        sand = Sand.query.filter(Sand.date >= str(date_ot)).filter(Sand.date <= str(date_do)).order_by(Sand.date).all()
+        sand = Sand.query.filter(Sand.date >= str(date_ot)).filter(Sand.date <= str(date_do_delta)).order_by(Sand.date).all()
         for el in sand:
             sum_net = round(sum_net + el.net, 2)
         return render_template('scales.html', sand=sand, sum_net=sum_net)
     else:
         sum_net = 0.0
-        sand = Sand.query.filter(Sand.date >= '2020-11-10').filter(Sand.date <= '2020-11-15').order_by(Sand.date).all()
+        d1 = datetime.utcnow() - timedelta(days=1)
+        d2 = datetime.utcnow()
+        sand = Sand.query.filter(Sand.date >= str(d1)).filter(Sand.date <= str(d2)).order_by(Sand.date).all()
         for el in sand:
             sum_net = round(sum_net + el.net, 2)
         return render_template('scales.html', sand=sand, sum_net=sum_net)
