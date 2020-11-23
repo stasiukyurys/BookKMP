@@ -73,11 +73,15 @@ def production():
 @app.route('/pit/scales', methods=['POST', 'GET'])
 def scales():
     if request.method == "POST":
-        return "POST"
+        date_ot = request.form['date_ot']
+        date_do = request.form['date_do']
+        sum_net = 0.0
+        sand = Sand.query.filter(Sand.date >= str(date_ot)).filter(Sand.date <= str(date_do)).order_by(Sand.date).all()
+        for el in sand:
+            sum_net = round(sum_net + el.net, 2)
+        return render_template('scales.html', sand=sand, sum_net=sum_net)
     else:
         sum_net = 0.0
-        #sand = Sand.query.order_by(Sand.date).all()
-        #sand = Sand.query.filter(Sand.car == 'AW-1771b').order_by(Sand.date).all()
         sand = Sand.query.filter(Sand.date >= '2020-11-10').filter(Sand.date <= '2020-11-15').order_by(Sand.date).all()
         for el in sand:
             sum_net = round(sum_net + el.net, 2)
