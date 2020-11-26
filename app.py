@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
+from apscheduler.schedulers.background import BackgroundScheduler
+from update import sensor
 
 
 app = Flask(__name__)
@@ -103,6 +105,11 @@ def pit():
 @app.route('/user/<string:name>/<int:id>')
 def user(name, id):
     return 'Сотрудники ' + name + ' - ' + str(id)
+
+
+scheduler = BackgroundScheduler(daemon=True)
+scheduler.add_job(sensor, trigger='interval', seconds=5)
+scheduler.start()
 
 
 if __name__ == '__main__':
